@@ -20,50 +20,12 @@ class BJSpider(scrapy.Spider):
 
     def parse(self, response):
         self.driver.get(response.url)
-        # name = response.xpath('//table[@class="ccjcList"]/tr/td[1]/a/text()').extract()
-        # ID   = response.xpath('//table[@class="ccjcList"]/tr/td[2]/text()').extract()
-        # date = response.xpath('//table[@class="ccjcList"]/tr/td[3]/text()').extract()
-        # for i in xrange(len(name)):
-        #     print name[i]
-        #     print ID[i]
-        #     print date[i]
-        #     print "*"*20
-
-
-        # next_page = self.driver.find_element_by_partial_link_text(u'>>')
-        #
-        # while next_page:
-        #
-        #     # while
-        #         # body = Selector(text=aa)
-        #     try:
-        #         self.driver.find_element_by_partial_link_text(u'>>').click()
-        #     except Exception, e:
-        #         print e
-        #     self.driver.current_window_handle
-        #     aa = self.driver.page_source
-        #     body = Selector(text=aa)
-        #     name = body.xpath('//table[@class="ccjcList"]/tr/td[1]/a/text()').extract()
-        #     ID   = body.xpath('//table[@class="ccjcList"]/tr/td[2]/text()').extract()
-        #     date = body.xpath('//table[@class="ccjcList"]/tr/td[3]/text()').extract()
-        #     for i in xrange(len(name)):
-        #         print name[i]
-        #         print ID[i]
-        #         print date[i]
-        #         print "*"*20
-        #         next_page = self.driver.find_element_by_partial_link_text(u'>>')
-        # #
-        # pass
-
         try:
             next_page = self.driver.find_element_by_xpath('//div[@class="fenye"]/ul/li/a[@onclick="nextPage()"]')
         except Exception, e:
             print e
 
         while next_page:
-
-            # while
-                # body = Selector(text=aa)
             try:
                 self.driver.find_element_by_xpath('//div[@class="fenye"]/ul/li/a[@onclick="nextPage()"]').click()
             except Exception, e:

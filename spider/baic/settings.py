@@ -15,6 +15,11 @@ LOG_LEVEL= 'ERROR'
 SPIDER_MODULES = ['baic.spiders']
 NEWSPIDER_MODULE = 'baic.spiders'
 
+base_url = 'http://gsxt.fc12319.com'
+
+djpath="/home/aric/PycharmProjects/baic/frontend/baicinfo"
+
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
@@ -65,9 +70,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'baic.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'baic.pipelines.BaicPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

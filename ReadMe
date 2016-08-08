@@ -1,0 +1,15 @@
+环境：
+    1. 无头浏览器, headlessbrowser 目录下，按照setup.sh执行就行... 注意需要root权限.
+    2. mysql， 按照django里的配置mysql数据库和密码
+    3. scrapy
+    4. 我是在linux下跑的，windows下没试过
+
+测试：
+    第一步：配置好了数据库，需要先弄下django，把表建立起来
+    第二步：启动无头浏览器，如果是分开的话，请注意把spider里的地址修改一下
+    第三步：修改下spider下setting里的djpath.
+    第四步：开始爬取， scrapy list获取到spider，然后scrapy crawl (spider) 开始爬取。
+           目前只有 sxdetail 这个爬虫和数据库关联，其他的仅仅是打印出数据而已.
+
+
+
