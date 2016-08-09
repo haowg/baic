@@ -73,6 +73,7 @@ class SXSpider(scrapy.Spider):
         page_info = self.pageinfo.page_source.encode('utf8')
         response = Selector(text=page_info)
         # 找到了网页源码，开始解析网页，获取需要的item.
+        # 登记信息
         url = self.pageinfo.current_url
         city = u'山西'
         register_ID = response.xpath('//div[@id="jibenxinxi"]/table[@class="detailsList"]/tbody/tr[2]/td[1]/text()').extract()
@@ -88,6 +89,47 @@ class SXSpider(scrapy.Spider):
         reg_authority = response.xpath('//div[@id="jibenxinxi"]/table[@class="detailsList"]/tbody/tr[8]/td[1]/text()').extract()
         Approved_date = response.xpath('//div[@id="jibenxinxi"]/table[@class="detailsList"]/tbody/tr[8]/td[2]/text()').extract()
         status = response.xpath('//div[@id="jibenxinxi"]/table[@class="detailsList"]/tbody/tr[9]/td[1]/text()').extract()
+
+        if len(establishment) == 0:
+            capital = ['nil']
+            lodgment = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[4]/td/text()').extract()
+            Operating_start = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[5]/td[1]/text()').extract()
+            Operating_end = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[5]/td[2]/text()').extract()
+            Business_scope = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[6]/td/text()').extract()
+            reg_authority = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[7]/td[1]/text()').extract()
+            Approved_date = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[7]/td[2]/text()').extract()
+            status = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[8]/td[2]/text()').extract()
+            establishment = response.xpath('/html/body/div[2]/div[2]/div/div[2]/table[1]/tbody/tr[8]/td[1]/text()').extract()
+        #
+        #
+        # print "lodgment: " + lodgment[0]
+        # print "Operating_start: " + Operating_start[0]
+        # print "Operating_end: " + Operating_end[0]
+        # print "Business_scope: " + Business_scope[0]
+        # print "reg_authority: " + reg_authority[0]
+        # print "Approved_date: " + Approved_date[0]
+        # print "status: " + status[0]
+        # print "establishment: " + establishment[0]
+
+
+
+
+        # 备案信息
+        person_id = response.xpath('/html/body/div[2]/div[2]/div/div[3]/div[1]/table/tbody/tr/td[1]/text()').extract()
+        person_name = response.xpath('/html/body/div[2]/div[2]/div/div[3]/div[1]/table/tbody/tr/td[2]/text()').extract()
+        person_post = response.xpath('/html/body/div[2]/div[2]/div/div[3]/div[1]/table/tbody/tr/td[3]/text()').extract()
+
+
+
+        # 经营异常信息
+        Abnormal_ID = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[1]/text()').extract()
+        Abnormal_reson = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[2]/text()').extract()
+        Abnormal_time = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[3]/text()').extract()
+        Abnormal_remove = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[4]/text()').extract()
+        Abnormal_remove_date = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[5]/text()').extract()
+        Abnormal_remove_auth = response.xpath('/html/body/div[2]/div[2]/div/div[6]/div/table/tbody/tr/td[6]/text()').extract()
+
+
 
         #
         # baicinfos = []
@@ -108,11 +150,30 @@ class SXSpider(scrapy.Spider):
             baicinfo["reg_authority"] = reg_authority
             baicinfo["Approved_date"] = Approved_date
             baicinfo["status"] = status
+            # 备案信息
+            baicinfo["person_id"] = person_id
+            baicinfo["person_name"] = person_name
+            baicinfo["person_post"] = person_post
 
+            # 经营异常信息
+            baicinfo["Abnormal_ID"] = Abnormal_ID
+            baicinfo["Abnormal_reson"] = Abnormal_reson
+            baicinfo["Abnormal_time"] = Abnormal_time
+            baicinfo["Abnormal_remove"] = Abnormal_remove
+            baicinfo["Abnormal_remove_date"] = Abnormal_remove_date
+            baicinfo["Abnormal_remove_auth"] = Abnormal_remove_auth
+
+            for i in baicinfo: #['Abnormal_remove', 'Abnormal_remove_date']:
+                if len(baicinfo[i]) == 0:
+                    baicinfo[i] = ['nil']
             return baicinfo
 
-        except Exception:
+        except Exception, e:
+            print e
             pass
+
+
+
         # for i in baicinfo:
         #     print i + ': ' + baicinfo[i][0]# .strip()
         # print "*" * 20
