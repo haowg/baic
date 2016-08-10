@@ -3,6 +3,8 @@ import scrapy
 from selenium import webdriver
 from scrapy.selector import Selector
 import time
+
+
 class TJSpider(scrapy.Spider):
     # 天津
     name = "tj"
@@ -10,13 +12,15 @@ class TJSpider(scrapy.Spider):
     start_urls = (
         'http://tjcredit.gov.cn/platform/saic/exclist.ftl',
     )
+
     # 初始化，这里要调用无头浏览器
     def __init__(self):
-        self.driver = webdriver.Remote(command_executor='http://127.0.0.1:8080/wd/hub', desired_capabilities={
-            'takeScreenshot': False,
-            'javascriptEnabled': True,
-
-        })
+        self.driver = webdriver.Remote(
+            command_executor='http://127.0.0.1:8080/wd/hub',
+            desired_capabilities={
+                'takeScreenshot': False,
+                'javascriptEnabled': True,
+            })
 
     def parse(self, response):
         self.driver.get(response.url)
@@ -37,9 +41,8 @@ class TJSpider(scrapy.Spider):
         # print next_page
         try:
             next_page = self.driver.find_element_by_xpath('//div[@class="fenye"]/ul/li/a[@onclick="nextPage()"]')
-        except Exception, e:
+        except Exception as e:
             print e
-
         while next_page:
 
             # while

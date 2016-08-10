@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+
 import sys, os
 
 from baic.settings import djpath
@@ -9,13 +10,14 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "baicinfo.settings")
 django.setup()
 from webapp.models import BaicRegisterInfo, BaicAbnormalInfo, BaicRecordInfo
+
+
 class BaicORM(object):
     def save(self, item):
         reginfo = BaicRegisterInfo()
         AbnormalInfo = BaicAbnormalInfo()
         RecordInfo = BaicRecordInfo()
         try:
-
             reginfo.url = item['url'][0].strip()
             reginfo.city = item['city'][0].strip()
             reginfo.register_ID = item['register_ID'][0].strip()
@@ -34,7 +36,6 @@ class BaicORM(object):
 
             reginfo.save()
 
-
             # 备案信息
             RecordInfo.person_id = item['person_id'][0].strip()
             RecordInfo.person_name = item['person_name'][0].strip()
@@ -51,11 +52,6 @@ class BaicORM(object):
             AbnormalInfo.Abnormal_remove_auth = item['Abnormal_remove_auth'][0].strip()
             AbnormalInfo.register_name = reginfo
             AbnormalInfo.save()
-
-
-
-
-
         except Exception:
             # 这有报错信息，将这个URL留下来以后单独处理
             print item['url'][0].strip()
