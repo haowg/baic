@@ -3,6 +3,8 @@ import scrapy
 from selenium import webdriver
 from scrapy.selector import Selector
 import time
+
+
 class SXSpider(scrapy.Spider):
     # 山西
     name = "shanxi"
@@ -12,9 +14,11 @@ class SXSpider(scrapy.Spider):
     )
     # 初始化，这里要调用无头浏览器
     def __init__(self):
-        self.driver = webdriver.Remote(command_executor='http://127.0.0.1:8080/wd/hub', desired_capabilities={
-            'takeScreenshot': False,
-            'javascriptEnabled': True,
+        self.driver = webdriver.Remote(
+            command_executor='http://127.0.0.1:8080/wd/hub',
+            desired_capabilities={
+                'takeScreenshot': False,
+                'javascriptEnabled': True,
 
         })
 
@@ -23,7 +27,7 @@ class SXSpider(scrapy.Spider):
         try:
             next_page = self.driver.find_element_by_xpath('//div[@class="fenye"]/ul/li[12]/a')
 
-        except Exception, e:
+        except Exception as e:
             print e
         while next_page:
             aa = self.driver.page_source
@@ -42,6 +46,4 @@ class SXSpider(scrapy.Spider):
                 self.driver.current_window_handle
             except Exception, e:
                 print e
-                pass
             next_page = self.driver.find_element_by_xpath('//div[@class="fenye"]/ul/li[12]/a').is_enabled()
-        pass
